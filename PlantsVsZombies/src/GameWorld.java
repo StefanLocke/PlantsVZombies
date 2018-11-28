@@ -26,6 +26,7 @@ public class GameWorld {
 
 		// on rajoute une entite de demonstration
 		entites.add(new TrucQuiBouge(0, 0.5));
+		entites.add(new Zombie(0.5,0.5));
 		
 	}
 

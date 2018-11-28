@@ -28,5 +28,5 @@ public abstract class Entite {
 	// dessine l'entite, aux bonnes coordonnees
 	public abstract void dessine();
 	
-
+	
 }
