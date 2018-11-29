@@ -1,9 +1,21 @@
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-
+		Map<Position,Position> cordtoC = new HashMap<Position,Position>();
+		Map<Position,Position> cordtoc = new HashMap<Position,Position>();
+		final Map<String,Integer> damage = new HashMap<String,Integer>();
+		for (Entite enemy : GameWorld.entites) {
+			if (enemy instanceof Enemy) {
+				damage.put(enemy.getClass().getSimpleName(),30) ;
+			}
+		}
+		
+		
+ 
 		GameWorld world = new GameWorld();
 		
 		// reglage de la taille de la fenetre de jeu, en pixels (nb: un écran fullHD = 1980x1050 pixels)

@@ -1,5 +1,5 @@
 
-public abstract class Being extends Entite{
+/*public abstract class Being extends Entite{
 
 	public Being(double x, double y) {
 		super(x, y);
@@ -12,4 +12,4 @@ public abstract class Being extends Entite{
 	public abstract void dessine();
 	
 	public 
-}
+}*/

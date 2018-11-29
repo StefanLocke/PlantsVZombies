@@ -2,12 +2,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
+	
 public class GameWorld {
-
+	public static final double EPSI = 0.02;
 
 	// l'ensemble des entites, pour gerer (notamment) l'affichage
-	private static List<Entite> entites;
+	public static List<Entite> entites;
+	public static List<Plants> plants;
+	public static List<Enemy> enemies;
 
 	
 	//Pour savoir si la partie est gagnee ou pas
@@ -23,10 +25,12 @@ public class GameWorld {
 		
 		// on cree les collections
 		entites = new LinkedList<Entite>();
+		plants = new LinkedList<Plants>();
+		enemies = new LinkedList<Enemy>();
 
 		// on rajoute une entite de demonstration
 		entites.add(new TrucQuiBouge(0, 0.5));
-		entites.add(new Zombie(0.5,0.5));
+		enemies.add(new Zombie(0.5,0.5));
 		
 	}
 
