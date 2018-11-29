@@ -1,7 +1,7 @@
 
 public class TrucQuiBouge extends Entite {
 
-	private static final double TRUC_MOVE_X = 0.0025;
+	private static final double TRUC_MOVE_X = 0.0005;
 	private static final double TRUC_SIZE = 0.05;
 	private boolean statut;
 	private Timer timer;
@@ -14,8 +14,8 @@ public class TrucQuiBouge extends Entite {
 	
 	@Override
 	public void step() {
-		this.position.setX(this.position.getX() + TRUC_MOVE_X);
-		if (this.position.getX() > 1.0) this.position.setX(0.0); 
+		this.position.setX(this.position.getX() - TRUC_MOVE_X);
+		if (this.position.getX() < 0) this.position.setX(1.0); 
 		// TODO ici l'objet repart à l'autre bout de l'ecran, a ne pas faire dans votre code
 		
 		if (timer.hasFinished()) {

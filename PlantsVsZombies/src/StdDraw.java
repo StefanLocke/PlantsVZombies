@@ -502,6 +502,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      *  The color green.
      */
     public static final Color GREEN  = Color.GREEN;
+    public static final Color DARK_GREEN  = new Color(0,100,0);
 
     /**
      *  The color light gray.

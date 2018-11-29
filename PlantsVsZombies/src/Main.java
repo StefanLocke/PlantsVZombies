@@ -1,13 +1,15 @@
 
 public class Main {
-
+	public static final int X_RESO = 1280;
+	public static final int Y_RESO = 720;
+	public static final double RATIO = 16.0/9.0;
 	public static void main(String[] args) {
 		
 
 		GameWorld world = new GameWorld();
 		
 		// reglage de la taille de la fenetre de jeu, en pixels (nb: un écran fullHD = 1980x1050 pixels)
-		StdDraw.setCanvasSize(1000, 1000);
+		StdDraw.setCanvasSize(X_RESO, Y_RESO);
 		
 		// permet le double buffering, pour permettre l'animation
 		StdDraw.enableDoubleBuffering();

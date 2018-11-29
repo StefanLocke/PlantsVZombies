@@ -2,12 +2,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Map;
+ 
 public class GameWorld {
 
-
+	public static final int GRID_HEIGHT = 5;
+	public static final int GRID_WIDTH = 9;
 	// l'ensemble des entites, pour gerer (notamment) l'affichage
 	private static List<Entite> entites;
+	public static Map<Position,Position> mapToC;
+	public static Map<Position,Position> mapToc;
 
 	
 	//Pour savoir si la partie est gagnee ou pas
@@ -21,11 +25,19 @@ public class GameWorld {
 		gameWon=false;
 		gameLost=false;
 		
+		
+		
 		// on cree les collections
 		entites = new LinkedList<Entite>();
-
+		mapToC = new HashMap<>();
+		mapToc = new HashMap<>();
+		
 		// on rajoute une entite de demonstration
+		Entite grid = new Grid();
+		grid.dessine();
 		entites.add(new TrucQuiBouge(0, 0.5));
+		entites.add(new PeaShooter(0, 0.));
+		
 		
 	}
 
@@ -64,8 +76,12 @@ public class GameWorld {
 	 */
 	public void processMouseClick(double x, double y) {
 		System.out.println("La souris a été cliquée en : "+x+" - "+y);
-	}
+		Position here = Grid.where(x,y);
+		System.out.println(here.getX()+" + " +here.getY());
+		Position place = Grid.getCoord(here.getX(),here.getY());
+		entites.add(new PeaShooter(place.getX(),place.getY()));
 
+	}
 	// on fait bouger/agir toutes les entites
 	public void step() {
 		for (Entite entite : this.entites)
@@ -77,6 +93,9 @@ public class GameWorld {
 
 		// Ici vous pouvez afficher du décors
 		// TODO
+		Entite grid = new Grid();
+		grid.dessine();
+		
 		
 		// affiche les entites
 		for (Entite entite : entites)

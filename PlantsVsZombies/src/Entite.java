@@ -8,6 +8,9 @@ public abstract class Entite {
 		position = new Position(x, y);
 	}
 	
+	public Entite() {
+	}
+	
 
 	public double getX() {
 		return position.getX();
@@ -27,6 +30,7 @@ public abstract class Entite {
 	
 	// dessine l'entite, aux bonnes coordonnees
 	public abstract void dessine();
+
 	
 
 }
