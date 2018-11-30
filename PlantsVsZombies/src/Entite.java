@@ -30,6 +30,18 @@ public abstract class Entite {
 	
 	// dessine l'entite, aux bonnes coordonnees
 	public abstract void dessine();
+	
+	public boolean isFighting() {
+		boolean R = false;
+		for (Entite entite: GameWorld.entites) {
+			if (!entite.equals(this)) {
+				
+			if (Math.abs((this.getX() - entite.getX())) < GameWorld.EPSI )
+				R = true;
+			}
+		}
+		return R;
+	}
 
 	
 
