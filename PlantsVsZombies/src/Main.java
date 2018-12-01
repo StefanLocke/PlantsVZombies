@@ -1,13 +1,22 @@
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
-
+	public static final int X_RESO = 1280;
+	public static final int Y_RESO = 720;
+	public static final double RATIO = 16.0/9.0;
+	public static final MapGroup mapGroup = new MapGroup();
 	public static void main(String[] args) {
-		
+		System.out.println(mapGroup.isTaken.get("11"));
 
+	
+		
+		
 		GameWorld world = new GameWorld();
 		
+		
 		// reglage de la taille de la fenetre de jeu, en pixels (nb: un écran fullHD = 1980x1050 pixels)
-		StdDraw.setCanvasSize(1000, 1000);
+		StdDraw.setCanvasSize(X_RESO, Y_RESO);
 		
 		// permet le double buffering, pour permettre l'animation
 		StdDraw.enableDoubleBuffering();
@@ -47,6 +56,21 @@ public class Main {
 		if (GameWorld.gameWon()) System.out.println("Game won !");
 		if (GameWorld.gameLost()) System.out.println("Game lost...");
 
+	}
+	
+	public static Map<Integer,Double> createCoordX() {
+		Map<Integer,Double> M = new HashMap<Integer,Double>();
+		for (int x = 1 ; x<= GameWorld.GRID_WIDTH;x++) {
+				M.put(x,Grid.convertX(Grid.GRID_SIZE)*x+Grid.convertX(Grid.GRID_SIZE)/2);
+		}
+		return M;
+	}
+	public static Map<Integer,Double> createCoordY() {
+		Map<Integer,Double> M = new HashMap<Integer,Double>();
+		for (int y = 1 ; y<= GameWorld.GRID_HEIGHT;y++) {
+				M.put(y,Grid.convertY(Grid.GRID_SIZE)*y-Grid.convertY(Grid.GRID_SIZE)/2);
+		}
+		return M;
 	}
 
 }
