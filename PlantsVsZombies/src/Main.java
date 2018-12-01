@@ -5,9 +5,10 @@ public class Main {
 	public static final int X_RESO = 1280;
 	public static final int Y_RESO = 720;
 	public static final double RATIO = 16.0/9.0;
-	public static final MapGroup mapgroup = new MapGroup();
+	public static final MapGroup mapGroup = new MapGroup();
 	public static void main(String[] args) {
-		
+		System.out.println(mapGroup.isTaken.get("11"));
+
 	
 		
 		

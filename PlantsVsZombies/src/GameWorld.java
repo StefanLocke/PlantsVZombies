@@ -79,8 +79,16 @@ public class GameWorld {
 		System.out.println("La souris a été cliquée en : "+x+" - "+y);
 		Position here = Grid.where(x,y);
 		Position place = Grid.getCoord(here.getX(),here.getY());
-		plants.add(new PeaShooter(place.getX(),place.getY()));
-		enemies.add(new Zombie(1,place.getY()));
+		System.out.println(""+(int)here.getX()+(int)here.getY());
+		int i = (int)here.getX();
+		int j = (int)here.getY();
+		if (false == Main.mapGroup.isTaken.get(""+i+j)) {		
+			plants.add(new PeaShooter(place.getX(),place.getY()));
+			Main.mapGroup.isTaken.put(""+i+j,true);
+			enemies.add(new Zombie(1,place.getY()));
+		}
+		else 
+			System.out.println("this case is cupied");
 
 	}
 	// on fait bouger/agir toutes les entites

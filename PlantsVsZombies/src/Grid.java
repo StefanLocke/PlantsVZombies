@@ -2,8 +2,6 @@ import java.util.*;
 public class Grid extends Entite {
 
 	public static final double GRID_SIZE=Main.Y_RESO;
-	public static Map<Position,Position> mapToC = new HashMap<>();
-	public static Map<Position,Position> mapToc = new HashMap<>();
 	public Grid() {
 		super();
 		}	
@@ -22,7 +20,7 @@ public class Grid extends Entite {
 				else 
 					StdDraw.setPenColor(StdDraw.DARK_GREEN);
 				
-				StdDraw.filledRectangle(Main.mapgroup.getDoubleCoordX(x),Main.mapgroup.getDoubleCoordY(y),convertX(GRID_SIZE)/2,convertY(GRID_SIZE)/2);		
+				StdDraw.filledRectangle(Main.mapGroup.getDoubleCoordX(x),Main.mapGroup.getDoubleCoordY(y),convertX(GRID_SIZE)/2,convertY(GRID_SIZE)/2);		
 			}
 		}
 	}
