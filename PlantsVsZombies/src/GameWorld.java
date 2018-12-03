@@ -16,6 +16,9 @@ public class GameWorld {
 	static List<Enemy> enemies;
 	static List<Projectile> projectiles;
 	static List<Integer> toRemove;
+	public char lastKey;
+	public int sunPower;
+	public Timer timer;
 	
 	//Pour savoir si la partie est gagnee ou pas
 	private static boolean gameWon;
@@ -25,6 +28,7 @@ public class GameWorld {
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
 		
+		
 		gameWon=false;
 		gameLost=false;
 		
@@ -33,7 +37,10 @@ public class GameWorld {
 		plants = new LinkedList<Plant>();
 		enemies = new LinkedList<Enemy>();
 		projectiles = new LinkedList<Projectile>();
-		toRemove = new LinkedList<Integer>(); 
+		toRemove = new LinkedList<Integer>();
+		lastKey = 'e';
+		sunPower = 50;
+		timer = new Timer(9000);
 
 		// on rajoute une entite de demonstration
 		Entite grid = new Grid();
@@ -52,15 +59,15 @@ public class GameWorld {
 		switch (key) {
 		case 't':
 			System.out.println("Le joueur veut planter un Tournesol...");
-			// TODO
+			lastKey = 't';
 			break;
 		case 'p':
 			System.out.println("Le joueur veut planter un Tire-Pois...");
-			// TODO
+			lastKey = 'p';
 			break;
 		case 'n':
 			System.out.println("Le joueur veut planter une Noix...");
-			// TODO
+			lastKey = 'n';
 			break;
 
 		default:
@@ -75,24 +82,38 @@ public class GameWorld {
 	 * @param x position en x de la souris au moment du clic
 	 * @param y position en y de la souris au moment du clic
 	 */
-	public void processMouseClick(double x, double y) {
-		System.out.println("La souris a été cliquée en : "+x+" - "+y);
-		Position here = Grid.where(x,y);
-		Position place = Grid.getCoord(here.getX(),here.getY());
-		System.out.println(""+(int)here.getX()+(int)here.getY());
-		int i = (int)here.getX();
-		int j = (int)here.getY();
-		if (false == Main.mapGroup.isTaken.get(""+i+j)) {		
-			plants.add(new PeaShooter(place.getX(),place.getY()));
-			Main.mapGroup.isTaken.put(""+i+j,true);
-			enemies.add(new Zombie(1,place.getY()));
-		}
-		else 
-			System.out.println("this case is cupied");
+	public void processMouseClick(double x, double y) {   // MAKE A SWITCH  withs this.lastKey
+		switch (this.lastKey) {                
+		case 't':
+			Sunflower.place(x, y);
+			break;
+		case 'p':
+			PeaShooter.place(x, y);
+			break;
+		case 'n':
+			break;
+		case 'e' :
+			
 
+		default:
+			System.out.println("Touche non prise en charge");
+			break;
+		}
 	}
 	// on fait bouger/agir toutes les entites
 	public void step() {
+		
+		if (timer.hasFinished())
+		{
+			double l;
+			double k;			
+				l = randX();
+				k = randY();			
+			Main.mapGroup.hasSun.put("" +l+k,true);
+			entites.add(new SunPickup(l,k));
+			timer.restart();
+		}
+		
 		for (Entite entite:entites)
 			entite.step();
 		for (Plant plant : plants) {
@@ -139,6 +160,38 @@ public class GameWorld {
 	public static boolean gameLost() {
 		return gameLost;
 	}
+	
+	private double randX() {
+		return Main.mapGroup.coordXIntToDouble.get( (int) (Math.random()*(GRID_WIDTH)+1));
+	}
+	private double randY() {
+		return Main.mapGroup.coordYIntToDouble.get( (int) (Math.random()*(GRID_HEIGHT-1)+1));
+	}
+	private int randYint() {
+		return (int) (Math.random()*(GRID_WIDTH-1)+1);
+	}
+	private int randXint() {
+		return (int) (Math.random()*(GRID_HEIGHT-1)+1);
+	}
+	/*public void spawnPlant(double x , double y, char lastKey) {   // x and y mouse clock position
+		switch (lastKey) {                
+		case 't':
+			lastKey = 't';
+			break;
+		case 'p':
+			System.out.println("Le joueur veut planter un Tire-Pois...");
+			lastKey = 'p';
+			break;
+		case 'n':
+			System.out.println("Le joueur veut planter une Noix...");
+			lastKey = 'n';
+			break;
+
+		default:
+			System.out.println("Touche non prise en charge");
+			break;
+		}
+	}*/
 	
 	
 }

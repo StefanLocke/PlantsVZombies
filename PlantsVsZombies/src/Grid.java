@@ -25,7 +25,7 @@ public class Grid extends Entite {
 		}
 	}
 	
-	public static double convertX(double pixels) {   // return a double that is betwqeen  0 and 1
+	public static double convertX(double pixels) {   // return a double that is between  0 and 1
 		return (((pixels)/GameWorld.GRID_HEIGHT)/Main.X_RESO);
 	}
 	public static double convertY(double pixels) {
@@ -36,12 +36,11 @@ public class Grid extends Entite {
 	{		
 		double X = 0;
 		double Y = 0;
-		Position here = null;
 		for (int i = 1 ; i<= GameWorld.GRID_WIDTH;i++) {
 			for (int j = 1; j <= GameWorld.GRID_HEIGHT; j++ ) {
-				if ((x>=(convertX(GRID_SIZE)*i -(convertX(GRID_SIZE)/2))+(convertX(GRID_SIZE)/2) ) && (x<=(convertX(GRID_SIZE)*i+(convertX(GRID_SIZE)/2))+(convertX(GRID_SIZE)/2)))
+				if ((x>= Main.mapGroup.getDoubleCoordX(i)-(convertX(GRID_SIZE)/2) ) && (x<=Main.mapGroup.getDoubleCoordX(i)+(convertX(GRID_SIZE)/2)))
 				{
-					if ((y>=(convertY(GRID_SIZE)*j-(convertY(GRID_SIZE)/2))-convertY(GRID_SIZE)/2 ) && (y<=(convertY(GRID_SIZE)*j+(convertY(GRID_SIZE)/2))-convertY(GRID_SIZE)/2))
+					if ((y>=(Main.mapGroup.getDoubleCoordY(j)-convertY(GRID_SIZE)/2 ) && (y<=Main.mapGroup.getDoubleCoordY(j)+(convertY(GRID_SIZE)/2))))
 					{
 					X=i;
 					Y=j;
@@ -50,7 +49,7 @@ public class Grid extends Entite {
 					
 			}
 		}
-		return here = new Position(X, Y);
+		return new Position(X, Y);
 	}
 	
 	public static Position getCoord(double X,double Y) {

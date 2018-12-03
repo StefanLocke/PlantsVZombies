@@ -6,11 +6,7 @@ public class Main {
 	public static final int Y_RESO = 720;
 	public static final double RATIO = 16.0/9.0;
 	public static final MapGroup mapGroup = new MapGroup();
-	public static void main(String[] args) {
-		System.out.println(mapGroup.isTaken.get("11"));
-
-	
-		
+	public static void main(String[] args) {	
 		
 		GameWorld world = new GameWorld();
 		
@@ -26,6 +22,7 @@ public class Main {
 		while (!GameWorld.gameLost() && !GameWorld.gameWon()) {
 			// Efface la fenetre graphique
 			StdDraw.clear();
+			
 			
 			
 			// Capture et traite les eventuelles interactions clavier du joueur

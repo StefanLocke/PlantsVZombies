@@ -18,8 +18,7 @@ public class Plant extends Entite {
 		if (HP<1)
 		{
 			toRemove = true;
-		}
-			
+		}			
 	}
 
 	public void dessine() {

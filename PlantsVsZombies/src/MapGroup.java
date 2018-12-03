@@ -5,11 +5,13 @@ public class MapGroup {
 	Map<Integer,Double> coordXIntToDouble;
 	Map<Integer,Double> coordYIntToDouble;
 	Map<String,Boolean> isTaken;
+	Map<String,Boolean> hasSun;
 	
 	public MapGroup() {
 		coordXIntToDouble = createCoordX();
 		coordYIntToDouble = createCoordY();
-		isTaken = setTaken();
+		isTaken = setEmpty();
+		hasSun = setEmpty();
 	}
 	public static Map<Integer,Double> createCoordX() {
 		Map<Integer,Double> M = new HashMap<Integer,Double>();
@@ -33,7 +35,7 @@ public class MapGroup {
 		return this.coordYIntToDouble.get(y);
 	}
 	
-	public static Map<String,Boolean> setTaken(){
+	public static Map<String,Boolean> setEmpty(){
 	Map<String,Boolean> X = new HashMap<String,Boolean>();
 	for (int x = 1 ; x<= GameWorld.GRID_WIDTH;x++) {
 		for (int y = 1; y <= GameWorld.GRID_HEIGHT; y++ ) {
