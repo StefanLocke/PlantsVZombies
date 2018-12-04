@@ -17,7 +17,9 @@ public class Plant extends Entite {
 	public void step() {
 		if (HP<1)
 		{
-			toRemove = true;
+			//toRemove = true;
+			GameWorld.plants.remove(this);
+
 		}			
 	}
 

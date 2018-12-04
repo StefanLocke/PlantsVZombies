@@ -17,8 +17,9 @@ public class GameWorld {
 	static List<Projectile> projectiles;
 	static List<Integer> toRemove;
 	public char lastKey;
-	public int sunPower;
+	public static int sunPower;
 	public Timer timer;
+	int EtR;    // amount of enemies to remove
 	
 	//Pour savoir si la partie est gagnee ou pas
 	private static boolean gameWon;
@@ -40,7 +41,8 @@ public class GameWorld {
 		toRemove = new LinkedList<Integer>();
 		lastKey = 'e';
 		sunPower = 50;
-		timer = new Timer(9000);
+		timer = new Timer(6500);
+		EtR = 0;
 
 		// on rajoute une entite de demonstration
 		Entite grid = new Grid();
@@ -69,7 +71,10 @@ public class GameWorld {
 			System.out.println("Le joueur veut planter une Noix...");
 			lastKey = 'n';
 			break;
-
+		case 's':
+			System.out.println(Main.mapGroup.hasSun.toString());
+			System.out.println(sunPower);
+			break;
 		default:
 			System.out.println("Touche non prise en charge");
 			break;
@@ -82,7 +87,22 @@ public class GameWorld {
 	 * @param x position en x de la souris au moment du clic
 	 * @param y position en y de la souris au moment du clic
 	 */
-	public void processMouseClick(double x, double y) {   // MAKE A SWITCH  withs this.lastKey
+	public void processMouseClick(double x, double y){   // MAKE A SWITCH  withs this.lastKey
+		Position here = Grid.where(x,y);
+		Position place = Grid.getCoord(here.getX(),here.getY());
+		int i = (int) here.getX();
+		int j = (int) here.getY();
+		if (Main.mapGroup.hasSun.get(""+i+j))
+		{			
+			for (Entite entite:entites)
+			{
+				if (entite.getX()== place.getX() && entite.getY() == place.getY())
+					sunPower += 25;
+					entites.remove(entite);
+					Main.mapGroup.hasSun.put(""+i+j, false);
+			}
+		}
+			else {
 		switch (this.lastKey) {                
 		case 't':
 			Sunflower.place(x, y);
@@ -93,11 +113,12 @@ public class GameWorld {
 		case 'n':
 			break;
 		case 'e' :
-			
+			break;
 
 		default:
 			System.out.println("Touche non prise en charge");
 			break;
+		}
 		}
 	}
 	// on fait bouger/agir toutes les entites
@@ -105,12 +126,12 @@ public class GameWorld {
 		
 		if (timer.hasFinished())
 		{
-			double l;
-			double k;			
-				l = randX();
-				k = randY();			
+			int l;
+			int k;			
+				l = randXint();
+				k = randYint();			
 			Main.mapGroup.hasSun.put("" +l+k,true);
-			entites.add(new SunPickup(l,k));
+			GameWorld.entites.add(new SunPickup(Main.mapGroup.getDoubleCoordX(l),Main.mapGroup.getDoubleCoordY(k)));
 			timer.restart();
 		}
 		
@@ -123,18 +144,38 @@ public class GameWorld {
 		}
 		for (Enemy enemy :enemies) {
 			enemy.step();
-			if (enemy.toRemove && !toRemove.contains(enemies.indexOf(enemy)))
-				toRemove.add(enemies.indexOf(enemy));			
+			if (enemy.toRemove && !enemy.counted)
+			{
+				EtR++;
+				enemy.counted = true;
+			}
 		}
+		
 		for (Projectile proj :projectiles)
 			proj.step();
-		for (Integer inte :toRemove)
+		if (EtR > 0 )
+			System.out.println(EtR);
+		while (EtR > 0 ) { 
+			for (Enemy enemy: enemies) {
+				boolean T = false;
+				if (enemy.toRemove == true) {
+					enemies.remove(enemy);
+					T = true;
+				}
+				if (T == true) {
+					EtR--;
+					break;
+				}
+								
+			}
+		}
+		/*for (Integer inte :toRemove)
 		{
 			enemies.remove(inte.intValue());
 			plants.remove(inte.intValue());
 			
 		}
-		toRemove.clear();
+		toRemove.clear();*/
 	}
 	// dessine les entites du jeu
 	public void dessine() {
@@ -167,11 +208,11 @@ public class GameWorld {
 	private double randY() {
 		return Main.mapGroup.coordYIntToDouble.get( (int) (Math.random()*(GRID_HEIGHT-1)+1));
 	}
-	private int randYint() {
-		return (int) (Math.random()*(GRID_WIDTH-1)+1);
-	}
 	private int randXint() {
-		return (int) (Math.random()*(GRID_HEIGHT-1)+1);
+		return (int)(Math.random()*(GRID_WIDTH)+1);
+	}
+	private int randYint() {
+		return (int)(Math.random()*(GRID_HEIGHT-1)+1);
 	}
 	/*public void spawnPlant(double x , double y, char lastKey) {   // x and y mouse clock position
 		switch (lastKey) {                

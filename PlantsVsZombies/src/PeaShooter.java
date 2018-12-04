@@ -17,14 +17,17 @@ public class PeaShooter extends Plant {
 		}
 		if (HP<1)
 		{
-			toRemove = true;
+			GameWorld.plants.remove(this);
+
 		}			
 	}
 	
 	public static void place(double x, double y) {
+		
 		System.out.println("La souris a été cliquée en : "+x+" - "+y);
 		Position here = Grid.where(x,y);
 		Position place = Grid.getCoord(here.getX(),here.getY());
+		GameWorld.enemies.add(new Zombie(1,place.getY()));
 		int i = (int)here.getX();
 		int j = (int)here.getY();
 		if (false == Main.mapGroup.isTaken.get(""+i+j)) {		

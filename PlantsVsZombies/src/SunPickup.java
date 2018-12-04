@@ -3,9 +3,10 @@ public class SunPickup extends Entite {
 
 	public static final String FILENAME = "SUNPICK.png";
 	public static final double SCALE = Grid.GRID_SIZE;
-	
+	Timer timer;
 	public SunPickup(double x, double y) {
 		super(x,y);
+		timer = new Timer(6500);
 	}
 	
 	@Override
@@ -17,9 +18,12 @@ public class SunPickup extends Entite {
 
 	@Override
 	public void step() {
-		// TODO Auto-generated method stub
+		if (timer.hasFinished())
+		{
+			GameWorld.sunPower += 25;
+			GameWorld.entites.remove(this);
 		
 	}
 	
-
+	}
 }
