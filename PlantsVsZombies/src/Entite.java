@@ -3,6 +3,8 @@ public abstract class Entite {
 	
 	// la position de l'entite
 	protected Position position;
+	boolean toRemove;
+	boolean counted;
 	
 	public Entite(double x, double y) {
 		position = new Position(x, y);

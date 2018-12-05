@@ -1,4 +1,4 @@
-import java.util.*;
+
 public class Grid extends Entite {
 
 	public static final double GRID_SIZE=Main.Y_RESO;
@@ -52,8 +52,7 @@ public class Grid extends Entite {
 		return new Position(X, Y);
 	}
 	
-	public static Position getCoord(double X,double Y) {
-		Position here = null;
+	public static Position getCoord(double X,double Y) { /// rend coord sur le grifd
 		double x = 0;
 		double y = 0;
 		for (int i = 1 ; i<= GameWorld.GRID_WIDTH;i++) {
@@ -64,7 +63,7 @@ public class Grid extends Entite {
 					{
 					x = (convertX(GRID_SIZE)*i )+(convertX(GRID_SIZE)/2);
 					y = (convertY(GRID_SIZE)*j-(convertY(GRID_SIZE)/2));
-					System.out.println(x + " + " + y);
+					System.out.println("" + x + "-" + y);
 					}
 				}
 					
@@ -73,7 +72,7 @@ public class Grid extends Entite {
 		
 		
 		
-		return here = new Position(x,y);
+		return new Position(x,y);
 	}
 	
 }

@@ -6,7 +6,9 @@ public class SunPickup extends Entite {
 	Timer timer;
 	public SunPickup(double x, double y) {
 		super(x,y);
-		timer = new Timer(6500);
+		timer = new Timer(20000);
+		toRemove = false;
+		counted = false;
 	}
 	
 	@Override
@@ -18,10 +20,12 @@ public class SunPickup extends Entite {
 
 	@Override
 	public void step() {
-		if (timer.hasFinished())
+		if (timer.hasFinished() && !toRemove)
 		{
+			Position place = Grid.where(getX(),getY());
 			GameWorld.sunPower += 25;
-			GameWorld.entites.remove(this);
+			toRemove = true;
+			Main.mapGroup.hasSun.put(""+(int)place.getX()+(int)place.getY(), false);
 		
 	}
 	

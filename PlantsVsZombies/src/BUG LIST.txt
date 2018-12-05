@@ -1,1 +1,12 @@
+
+BUGS ------------------------
+
 PLANT ON PLANT = CRASH
+click off of gamezone = crash
+
+
+
+TODO -------------------------
+
+-Cooldown on plants
+-fix clicking off gamezone = bug

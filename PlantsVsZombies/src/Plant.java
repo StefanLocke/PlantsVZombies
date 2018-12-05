@@ -5,6 +5,7 @@ public class Plant extends Entite {
 	public int HP;
 	String fileName;
 	boolean toRemove;
+	boolean counted;
 	
 	public Plant(double x, double y,double scaling,int maxhp, String filename) {
 		super(x, y);
@@ -12,13 +13,13 @@ public class Plant extends Entite {
 		fileName = filename;	
 		scale=scaling;
 		toRemove = false;
+		counted = false;
 	}
 
 	public void step() {
 		if (HP<1)
 		{
-			//toRemove = true;
-			GameWorld.plants.remove(this);
+			toRemove = true;
 
 		}			
 	}

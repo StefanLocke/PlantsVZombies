@@ -70,7 +70,6 @@ public class Enemy extends Entite{
 		if (this.getY() == proj.getY()) {
 			if ((Math.abs((this.getX() - proj.getX())) <= (0.02)))
 			{
-				System.out.println("take dmg");
 				take = proj.dmg;
 				GameWorld.projectiles.remove(proj);
 				return take;

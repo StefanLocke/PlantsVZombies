@@ -7,7 +7,7 @@ public class Main {
 	public static final double RATIO = 16.0/9.0;
 	public static final MapGroup mapGroup = new MapGroup();
 	public static void main(String[] args) {	
-		
+		Timer timer = new Timer(100);
 		GameWorld world = new GameWorld();
 		
 		
@@ -30,11 +30,12 @@ public class Main {
 				char key = StdDraw.nextKeyTyped();
 				world.processUserInput(key);
 			}
-			
-			if (StdDraw.isMousePressed()) {
-				world.processMouseClick(StdDraw.mouseX(), StdDraw.mouseY());
+			if (timer.hasFinished()) {
+				if (StdDraw.isMousePressed()) {
+					world.processMouseClick(StdDraw.mouseX(), StdDraw.mouseY());
+					timer.restart();
+				}
 			}
-
 			
 			world.step();
 			
