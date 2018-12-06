@@ -20,7 +20,7 @@ public class Plant extends Entite {
 		if (HP<1)
 		{
 			toRemove = true;
-
+			Main.mapGroup.isTaken.put("" + Grid.whereX(this.getX()) + Grid.whereY(this.getY()) , false);
 		}			
 	}
 

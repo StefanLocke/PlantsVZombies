@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.List;
  
 public class GameWorld  {
-	public static final double EPSI = 0.02;
+	public static final double EPSI = PeaProj.MOVE_X + Zombie.MOVE_X;
 	public static final int GRID_HEIGHT= 6;
 	public static final int GRID_WIDTH= 9;
 	
@@ -19,6 +19,8 @@ public class GameWorld  {
 	int EtR;    // amount of enemies to remove
 	int PtR;	 // amount of PLANTS to remove
 	int StR;	 // amount of SUNS to remove
+	Entite grid;
+	
 	//Pour savoir si la partie est gagnee ou pas
 	private static boolean gameWon;
 	// Idem pour savoir si le jeu est perdu (si le jeu n'est ni gagne ni perdu, il est en cours)
@@ -45,8 +47,7 @@ public class GameWorld  {
 		StR = 0;
 
 		// on rajoute une entite de demonstration
-		Entite grid = new Grid();
-		grid.dessine();
+		grid = new Grid();
 		
 		
 	}
@@ -90,41 +91,44 @@ public class GameWorld  {
 	 */
 	public void processMouseClick(double x, double y){   // MAKE A SWITCH  withs this.lastKey
 		System.out.println("La souris a été cliquée en : "+x+" - "+y);
-		Position here = Grid.where(x,y);
-		Position place = Grid.getCoord(here.getX(),here.getY());
-		int i = (int)here.getX();
-		int j = (int)here.getY();
-		if (Main.mapGroup.hasSun.get(""+i+j))
-		{			
-			System.out.println("sun is here");
-			for (SunPickup sun:suns)
-			{
-				if ((sun.getX() == place.getX()) && (sun.getY() == place.getY())) {
-					System.out.println("doing rm process on found sun");
-					sunPower += 25;					
-					sun.toRemove = true;
-					Main.mapGroup.hasSun.put(""+i+j, false);
+		System.out.println("case : " + Grid.whereX(x) + Grid.whereY(y));
+		if (Grid.check(x, y)) {
+			Position here = Grid.where(x,y);
+			Position place = Grid.getCoord(here.getX(),here.getY());
+			int i = (int)here.getX();
+			int j = (int)here.getY();
+			if (Main.mapGroup.hasSun.get(""+i+j))
+			{			
+				System.out.println("sun is here");
+				for (SunPickup sun:suns)
+				{
+					if ((sun.getX() == place.getX()) && (sun.getY() == place.getY())) {
+						System.out.println("doing rm process on found sun");
+						sunPower += 25;					
+						sun.toRemove = true;
+						Main.mapGroup.hasSun.put(""+i+j, false);
+					}
 				}
 			}
-		}
-			else {
-		switch (this.lastKey) {                
-		case 't':
-			Sunflower.place(x, y);
-			break;
-		case 'p':
-			PeaShooter.place(x, y);
-			break;
-		case 'n':
-			Nut.place(x, y);
-			break;
-		case 'e' :
-			break;
-
-		default:
-			System.out.println("Touche non prise en charge");
-			break;
-		}
+				else {
+			switch (this.lastKey) {                
+			case 't':
+				Sunflower.place(x, y);
+				break;
+			case 'p':
+				PeaShooter.place(x, y);
+				break;
+			case 'n':
+				Nut.place(x, y);
+				break;
+			case 'e' :
+				break;
+	
+			default:
+				System.out.println("Touche non prise en charge");
+				break;
+			}
+			}
 		}
 	}
 	// on fait bouger/agir toutes les entites
@@ -229,8 +233,7 @@ public class GameWorld  {
 	public void dessine() {
 		// Ici vous pouvez afficher du décors
 		// TODO
-			Entite grid = new Grid();
-			grid.dessine();		
+			this.grid.dessine();		
 		// affiche les entites
 		
 		for (Enemy enemy :enemies)

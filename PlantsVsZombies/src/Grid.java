@@ -31,14 +31,14 @@ public class Grid extends Entite {
 		
 	}
 	
-	public static double convertX(double pixels) {   // return a double that is between  0 and 1
+	public static double convertX(double pixels) {   // return a double that is between  0 and 1 represents the size of one grid box on the X axis
 		return (((pixels)/GameWorld.GRID_HEIGHT)/Main.X_RESO);
 	}
 	public static double convertY(double pixels) {
 		return (((pixels)/GameWorld.GRID_HEIGHT)/Main.Y_RESO);
 	}
 	
-	public static Position where(double x,double y)
+	public static Position where(double x,double y) // return position(int int) on the grid the doubles x qnd y qre
 	{		
 		double X = 0;
 		double Y = 0;
@@ -56,6 +56,23 @@ public class Grid extends Entite {
 			}
 		}
 		return new Position(X, Y);
+	}
+	
+	public static int whereX(double x) {
+		int X = 0;
+		for (int i = 1; i <= GameWorld.GRID_WIDTH; i++ ) {
+			if ((x >= Main.mapGroup.getDoubleCoordX(i)-convertX(GRID_SIZE)/2 ) && (x<=Main.mapGroup.getDoubleCoordX(i)+(convertX(GRID_SIZE)/2)))
+				X=i;
+		}
+		return X;
+	}
+	public static int whereY(double y) {
+		int Y = 0;
+		for (int j = 1; j <= GameWorld.GRID_HEIGHT; j++ ) {
+			if ((y>= Main.mapGroup.getDoubleCoordY(j)-convertY(GRID_SIZE)/2 ) && (y<=Main.mapGroup.getDoubleCoordY(j)+(convertY(GRID_SIZE)/2)))
+				Y=j;
+		}
+		return Y;
 	}
 	
 	public static Position getCoord(double X,double Y) { /// rend coord sur le grifd
@@ -79,6 +96,19 @@ public class Grid extends Entite {
 		
 		
 		return new Position(x,y);
+	}
+	
+	public static boolean check(double x, double y) {    // checks if the coords x y are part of the grid and prevents from placing on UI
+		boolean Tx = false;
+		boolean Ty = false;
+		System.out.println(Main.mapGroup.getDoubleCoordX(GameWorld.GRID_WIDTH)+convertX(GRID_SIZE)/2);
+		if ((x > Main.mapGroup.getDoubleCoordX(1)-convertX(GRID_SIZE)/2) && (x < Main.mapGroup.getDoubleCoordX(GameWorld.GRID_WIDTH)+convertX(GRID_SIZE)/2)) {
+			Tx = true;
+		}
+		if ((y > Main.mapGroup.getDoubleCoordY(1)-convertY(GRID_SIZE)/2) && (y < Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT-1)+convertY(GRID_SIZE)/2)) {
+			Ty = true;
+		}
+		return Tx && Ty;	
 	}
 	
 }

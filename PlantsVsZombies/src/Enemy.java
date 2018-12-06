@@ -36,7 +36,7 @@ public class Enemy extends Entite{
 	}
 	@Override
 	public void dessine() {
-		StdDraw.picture(position.getX(),position.getY(),fileName,scale,scale);
+		StdDraw.picture(position.getX(),position.getY(),fileName,Grid.convertX(scale),Grid.convertY(scale));
 		
 	}
 	public boolean isFighting() {

@@ -1,20 +1,23 @@
 
+// = DONE/fixed
+
+
 BUGS ------------------------
 
-PLANT ON PLANT = CRASH
-click off of gamezone = crash
+//PLANT ON PLANT = CRASH
+//click off of gamezone = crash
 
 
 
 TODO -------------------------
 
 -Cooldown on plants
--fix clicking off gamezone = bug
+//-fix clicking off gamezone = bug
 -add not being able to put plants on zombies
--add not being able to put plants on gui
+//-add not being able to put plants on gui
 -make sunpickups invisible
 -add GUI elements, sun counter and cd tracker
 -add zombie spawn system
--add tank zombie
+//-add tank zombie
 -Check values of dmg and speed
-=add costs to all pl;ants
+=add costs to all plants
