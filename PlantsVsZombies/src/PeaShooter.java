@@ -24,12 +24,11 @@ public class PeaShooter extends Plant {
 	
 	public static void place(double x, double y) {
 		Position here = Grid.where(x,y);
-		Position place = Grid.getCoord(here.getX(),here.getY());
-		GameWorld.enemies.add(new Zombie(1,place.getY()));
+		GameWorld.enemies.add(new Zombie(1,Main.mapGroup.getDoubleCoordY((int)here.getY())));
 		int i = (int)here.getX();
 		int j = (int)here.getY();
 		if (false == Main.mapGroup.isTaken.get(""+i+j)) {		
-			GameWorld.plants.add(new PeaShooter(place.getX(),place.getY()));
+			GameWorld.plants.add(new PeaShooter(Main.mapGroup.getDoubleCoordX((int)here.getX()),Main.mapGroup.getDoubleCoordY((int)here.getY())));
 			Main.mapGroup.isTaken.put(""+i+j,true);
 		}
 		else 

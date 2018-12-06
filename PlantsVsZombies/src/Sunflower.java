@@ -19,13 +19,12 @@ public class Sunflower extends Plant {
 		}
 	public static void place(double x, double y) {
 		Position here = Grid.where(x,y);
-		Position place = Grid.getCoord(here.getX(),here.getY());
 		int i = (int)here.getX();
 		int j = (int)here.getY();
 		if (false == Main.mapGroup.isTaken.get(""+i+j)) {		
 			if (GameWorld.sunPower >=50){
 			GameWorld.sunPower -= 50;
-			GameWorld.plants.add(new Sunflower(place.getX(),place.getY()));
+			GameWorld.plants.add(new Sunflower(Main.mapGroup.getDoubleCoordX((int)here.getX()),Main.mapGroup.getDoubleCoordY((int)here.getY())));
 			Main.mapGroup.isTaken.put(""+i+j,true);
 			}
 			else {

@@ -14,7 +14,6 @@ public class SunPickup extends Entite {
 	@Override
 	public void dessine() {
 		StdDraw.picture(this.position.getX(),this.position.getY(),FILENAME,Grid.convertX(SCALE),Grid.convertY(SCALE));
-		
 	}
 
 

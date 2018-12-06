@@ -23,6 +23,12 @@ public class Grid extends Entite {
 				StdDraw.filledRectangle(Main.mapGroup.getDoubleCoordX(x),Main.mapGroup.getDoubleCoordY(y),convertX(GRID_SIZE)/2,convertY(GRID_SIZE)/2);		
 			}
 		}
+		StdDraw.setFont(StdDraw.NEW_FONT);
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.text(Main.mapGroup.getDoubleCoordX(1)+convertX(GRID_SIZE)/2,Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT)+convertY(GRID_SIZE)/3, "Flower Power :");
+		StdDraw.setFont(StdDraw.NEW_FONTbis);
+		StdDraw.text(Main.mapGroup.getDoubleCoordX(1)+convertX(GRID_SIZE)/2,Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT)-convertY(GRID_SIZE)/6, ""+GameWorld.sunPower);
+		
 	}
 	
 	public static double convertX(double pixels) {   // return a double that is between  0 and 1
