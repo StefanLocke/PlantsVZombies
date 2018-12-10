@@ -2,7 +2,7 @@
 public class PeaShooter extends Plant {
 	public static final int PEAS_MAXHP = 100;
 	public static final int PRICE = 0;
-	public static final String FILENAME = "Peashooter.png";
+	public static final String FILENAME = "pictures/Peashooter.png";
 	public static final double SCALE = Grid.GRID_SIZE;
 	Timer timer;
 	

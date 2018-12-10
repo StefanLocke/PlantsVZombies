@@ -2,7 +2,7 @@
 public class Nut extends Plant{
 	public static final int MAXHP = 1500;
 	public static final int PRICE = 50;
-	public static final String FILENAME = "nut.png";
+	public static final String FILENAME = "pictures/nut.png";
 	public static final double SCALE = Grid.GRID_SIZE;
 	public Nut(double x, double y) {
 		super(x, y,SCALE,MAXHP,FILENAME);	

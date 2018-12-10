@@ -12,15 +12,16 @@ public class GameWorld  {
 	static List<Plant> plants;
 	static List<Enemy> enemies;
 	static List<Projectile> projectiles;
-	static LinkedList<SunPickup> suns;
+	static List<SunPickup> suns;
 	public static char lastKey;
 	public static int sunPower;
 	public Timer timer;
-	int EtR;    // amount of enemies to remove
-	int PtR;	 // amount of PLANTS to remove
-	int StR;// amount of SUNS to remove
-	int PrtR;// amount of proj to remove
-	Entite grid;
+	public Timer waveTimer;
+	int EtR;    	// amount of enemies to remove
+	int PtR;		// amount of PLANTS to remove
+	int StR;		// amount of SUNS to remove
+	int PrtR;		// amount of proj to remove
+	int waveNb;
 	
 	//Pour savoir si la partie est gagnee ou pas
 	private static boolean gameWon;
@@ -43,12 +44,12 @@ public class GameWorld  {
 		lastKey = 'e';
 		sunPower = 50;
 		timer = new Timer(6000);
+		waveTimer = new Timer(6000);
 		EtR = 0;
 		PtR = 0;
 		StR = 0;
-
-		// on rajoute une entite de demonstration
-		grid = new Grid();
+		waveNb=1;
+		
 		
 		
 	}
@@ -90,7 +91,7 @@ public class GameWorld  {
 	 * @param x position en x de la souris au moment du clic
 	 * @param y position en y de la souris au moment du clic
 	 */
-	public void processMouseClick(double x, double y){   // MAKE A SWITCH  withs this.lastKey
+	public void processMouseClick(double x, double y){   // MAKE A SWITCH  with this.lastKey
 		System.out.println("La souris a été cliquée en : "+x+" - "+y);
 		System.out.println("case : " + Grid.whereX(x) + Grid.whereY(y));
 		if (Grid.check(x, y)) {
@@ -132,9 +133,8 @@ public class GameWorld  {
 			}
 		}
 	}
-	// on fait bouger/agir toutes les entites
+	
 	public void step() {
-		
 		if (timer.hasFinished())
 		{
 			int l;
@@ -144,6 +144,12 @@ public class GameWorld  {
 			Main.mapGroup.hasSun.put("" +l+k,true);
 			GameWorld.suns.add(new SunPickup(Main.mapGroup.getDoubleCoordX(l),Main.mapGroup.getDoubleCoordY(k)));
 			timer.restart();
+		}
+		
+		if (waveTimer.hasFinished()) {
+			wave(waveNb);
+			waveNb++;
+			waveTimer.restart();
 		}
 		
 		for (Entite entite:entites) {
@@ -255,8 +261,8 @@ public class GameWorld  {
 	public void dessine() {
 		// Ici vous pouvez afficher du décors
 		// TODO
-			this.grid.dessine();		
-		// affiche les entites
+			Grid.draw();
+
 		
 		for (Enemy enemy :enemies)
 			enemy.dessine();
@@ -279,37 +285,22 @@ public class GameWorld  {
 		return gameLost;
 	}
 	
-	/*private double randX() {
-		return Main.mapGroup.coordXIntToDouble.get( (int) (Math.random()*(GRID_WIDTH)+1));
+	private double randspawnX() {
+		return Math.random()*0.2 +0.1;
 	}
-	private double randY() {
+	/*private double randY() {
 		return Main.mapGroup.coordYIntToDouble.get( (int) (Math.random()*(GRID_HEIGHT-1)+1));
-	}*/
-	private int randXint() {
+	*/
+	private int randXint() {   // int between 1 and the grid height
 		return (int)(Math.random()*(GRID_WIDTH)+1);
 	}
 	private int randYint() {
-		return (int)(Math.random()*(GRID_HEIGHT-1)+1);
+		return (int)(Math.random()*(GRID_HEIGHT-1)+1); // int between 1 and the grid height without the ui grid
 	}
-	/*public void spawnPlant(double x , double y, char lastKey) {   // x and y mouse clock position
-		switch (lastKey) {                
-		case 't':
-			lastKey = 't';
-			break;
-		case 'p':
-			System.out.println("Le joueur veut planter un Tire-Pois...");
-			lastKey = 'p';
-			break;
-		case 'n':
-			System.out.println("Le joueur veut planter une Noix...");
-			lastKey = 'n';
-			break;
-
-		default:
-			System.out.println("Touche non prise en charge");
-			break;
+	private void wave(int n)  {    // spawns n zombies at random boxes around the grid
+		for (int i = 1 ; i <= n;i++) {
+			enemies.add(new Zombie(randspawnX()+1,Main.mapGroup.getDoubleCoordY(randYint())));
+			}
 		}
-	}*/
+	}
 	
-	
-}

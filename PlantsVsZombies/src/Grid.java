@@ -10,9 +10,11 @@ public class Grid extends Entite {
 	@Override
 	public void step() {		
 	}
-
 	@Override
 	public void dessine() {
+	
+	}
+	public static void draw() {
 		for (int x = 1 ; x<= GameWorld.GRID_WIDTH;x++) {
 			for (int y = 1; y <= GameWorld.GRID_HEIGHT; y++ ) {
 				if (y==GameWorld.GRID_HEIGHT)
@@ -37,11 +39,11 @@ public class Grid extends Entite {
 		StdDraw.setPenRadius(OUTLINE_THICKNESS);
 		for (int i = 3; i<=9;i++) {
 			if (i == 3)
-				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"Sun.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
+				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"pictures/Sun.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
 			if (i == 4)
-				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"Peashooter.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
+				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"pictures/Peashooter.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
 			if (i == 5)
-				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"Nut.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));	
+				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"pictures/Nut.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));	
 		}
 		for (int i = 3; i<=9;i++) {
 			StdDraw.setPenColor(StdDraw.BLUE);

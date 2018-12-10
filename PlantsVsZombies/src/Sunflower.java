@@ -2,7 +2,7 @@
 public class Sunflower extends Plant {
 	public static final int MAXHP = 300;
 	public static final int PRICE = 50;
-	public static final String FILENAME = "sun.png";
+	public static final String FILENAME = "pictures/sun.png";
 	public static final double SCALE = Grid.GRID_SIZE;
 	Timer timer;
 	public Sunflower(double x, double y) {

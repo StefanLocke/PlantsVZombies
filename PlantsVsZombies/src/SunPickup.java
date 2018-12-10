@@ -1,7 +1,7 @@
 
 public class SunPickup extends Entite {
 
-	public static final String FILENAME = "SUNPICKt.png";
+	public static final String FILENAME = "pictures/SUNPICKt.png";
 	public static final double SCALE = Grid.GRID_SIZE;
 	Timer timer;
 	public SunPickup(double x, double y) {

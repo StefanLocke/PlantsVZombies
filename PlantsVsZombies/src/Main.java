@@ -8,6 +8,8 @@ public class Main {
 	public static final MapGroup mapGroup = new MapGroup();
 	public static void main(String[] args) {	
 		Timer timer = new Timer(100);
+		Timer FPS = new Timer(1000);
+		int Frames = 0;
 		GameWorld world = new GameWorld();
 		
 		
@@ -42,15 +44,18 @@ public class Main {
 			
 			// dessine la carte
 			world.dessine();
-			
+			Frames++;
+			if (FPS.hasFinished()) {
+				System.out.println(Frames);
+				Frames=0;
+				FPS.restart();
+			}
 			
 			// Montre la fenetre graphique mise a jour et attends 20 millisecondes
 			StdDraw.show();
 			StdDraw.pause(20);
 			
-			
 		}
-		
 		if (GameWorld.gameWon()) System.out.println("Game won !");
 		if (GameWorld.gameLost()) System.out.println("Game lost...");
 
