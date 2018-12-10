@@ -68,7 +68,7 @@ public class Enemy extends Entite{
 		int take = 0;
 	for (Projectile proj: GameWorld.projectiles) {
 		if (this.getY() == proj.getY()) {
-			if ((Math.abs((this.getX() - proj.getX())) <= (0.02)))
+			if ((Math.abs((this.getX() - proj.getX())) <= (GameWorld.EPSI)))
 			{
 				take = proj.dmg;
 				GameWorld.projectiles.remove(proj);

@@ -4,16 +4,23 @@ public class Projectile extends Entite{
 	double speed;
 	int dmg;
 	String fileName;
+	boolean toRemove;
+	boolean Counted;
 	public Projectile(double x, double y,String fileName,double speed,double scale,int DMG) {
 		super(x,y);
 		this.fileName=fileName;
 		this.speed=speed;
 		this.scale=scale;
 		this.dmg = DMG;
+		toRemove = false;
+		counted = false;
 	}
 	@Override
 	public void step() {
 		this.position.setX(this.position.getX() + speed);
+		if (getX() > 1.2) {
+			toRemove = true;
+		}
 	}
 
 	@Override

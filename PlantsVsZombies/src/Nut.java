@@ -1,6 +1,7 @@
 
 public class Nut extends Plant{
 	public static final int MAXHP = 1500;
+	public static final int PRICE = 50;
 	public static final String FILENAME = "nut.png";
 	public static final double SCALE = Grid.GRID_SIZE;
 	public Nut(double x, double y) {
@@ -12,8 +13,8 @@ public class Nut extends Plant{
 		int i = (int)here.getX();
 		int j = (int)here.getY();
 		if (false == Main.mapGroup.isTaken.get(""+i+j)) {		
-			if (GameWorld.sunPower >=50){
-			GameWorld.sunPower -= 50;
+			if (Nut.canBuy()){
+			GameWorld.sunPower -= PRICE;
 			GameWorld.plants.add(new Nut(place.getX(),place.getY()));
 			Main.mapGroup.isTaken.put(""+i+j,true);
 			}
@@ -24,5 +25,8 @@ public class Nut extends Plant{
 		else 
 			System.out.println("this case is ocupied");
 
+	}
+	public static boolean canBuy() {
+		return GameWorld.sunPower >= PRICE;
 	}
 }

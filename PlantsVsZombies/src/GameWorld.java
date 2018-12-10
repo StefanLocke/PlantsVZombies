@@ -13,12 +13,13 @@ public class GameWorld  {
 	static List<Enemy> enemies;
 	static List<Projectile> projectiles;
 	static LinkedList<SunPickup> suns;
-	public char lastKey;
+	public static char lastKey;
 	public static int sunPower;
 	public Timer timer;
 	int EtR;    // amount of enemies to remove
 	int PtR;	 // amount of PLANTS to remove
-	int StR;	 // amount of SUNS to remove
+	int StR;// amount of SUNS to remove
+	int PrtR;// amount of proj to remove
 	Entite grid;
 	
 	//Pour savoir si la partie est gagnee ou pas
@@ -111,7 +112,7 @@ public class GameWorld  {
 				}
 			}
 				else {
-			switch (this.lastKey) {                
+			switch (lastKey) {                
 			case 't':
 				Sunflower.place(x, y);
 				break;
@@ -175,8 +176,29 @@ public class GameWorld  {
 			}
 		}
 		
-		for (Projectile proj :projectiles)
+		for (Projectile proj :projectiles) {  // only used for out of bounts projs 
 			proj.step();
+			if (proj.toRemove && !proj.counted)
+			{
+				PrtR++;
+				proj.counted = true;
+			}
+		}
+		
+		while (PrtR > 0 ) { 
+			for (Projectile proj :projectiles) {
+				boolean T = false;
+				if (proj.toRemove == true) {
+					projectiles.remove(proj);
+					T = true;
+				}
+				if (T == true) {
+					PrtR--;
+					break;
+				}
+								
+			}
+		}
 		
 		while (EtR > 0 ) { 
 			for (Enemy enemy: enemies) {
@@ -257,12 +279,12 @@ public class GameWorld  {
 		return gameLost;
 	}
 	
-	private double randX() {
+	/*private double randX() {
 		return Main.mapGroup.coordXIntToDouble.get( (int) (Math.random()*(GRID_WIDTH)+1));
 	}
 	private double randY() {
 		return Main.mapGroup.coordYIntToDouble.get( (int) (Math.random()*(GRID_HEIGHT-1)+1));
-	}
+	}*/
 	private int randXint() {
 		return (int)(Math.random()*(GRID_WIDTH)+1);
 	}

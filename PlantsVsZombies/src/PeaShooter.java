@@ -1,14 +1,14 @@
 
 public class PeaShooter extends Plant {
 	public static final int PEAS_MAXHP = 100;
+	public static final int PRICE = 0;
 	public static final String FILENAME = "Peashooter.png";
 	public static final double SCALE = Grid.GRID_SIZE;
 	Timer timer;
-	int i;
+	
 	public PeaShooter(double x, double y) {
 		super(x, y,SCALE,PEAS_MAXHP,FILENAME);
 		timer = new Timer(1500);
-		i = 0;
 	}
 	
 	@Override
@@ -44,14 +44,24 @@ public class PeaShooter extends Plant {
 		int i = (int)here.getX();
 		int j = (int)here.getY();
 		if (Grid.check(x, y)) {
-		if (false == Main.mapGroup.isTaken.get(""+i+j)) {		
-			GameWorld.plants.add(new PeaShooter(Main.mapGroup.getDoubleCoordX((int)here.getX()),Main.mapGroup.getDoubleCoordY((int)here.getY())));
-			Main.mapGroup.isTaken.put(""+i+j,true);
+		if (false == Main.mapGroup.isTaken.get(""+i+j)) {	
+			if (PeaShooter.canBuy()) {
+				GameWorld.sunPower -= PRICE;
+				GameWorld.plants.add(new PeaShooter(Main.mapGroup.getDoubleCoordX((int)here.getX()),Main.mapGroup.getDoubleCoordY((int)here.getY())));
+				Main.mapGroup.isTaken.put(""+i+j,true);
+			}
+			else
+				System.out.println("you dont have enouth for this");
+				
 		}
 		else 
 			System.out.println("this case is ocupied");
 
+		}
 	}
+	
+	public static boolean canBuy() {
+		return GameWorld.sunPower >= PRICE;
 	}
 }
 

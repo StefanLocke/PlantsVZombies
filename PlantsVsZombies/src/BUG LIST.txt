@@ -11,13 +11,14 @@ BUGS ------------------------
 
 TODO -------------------------
 
--Cooldown on plants
+													-Cooldown on plants
 //-fix clicking off gamezone = bug
--add not being able to put plants on zombies
+-											add not being able to put plants on zombies
 //-add not being able to put plants on gui
--make sunpickups invisible
--add GUI elements, sun counter and cd tracker
--add zombie spawn system
+-//make sunpickups invisible
+//add GUI elements, sun counter and cd tracker
+				-							add zombie spawn system
 //-add tank zombie
--Check values of dmg and speed
-=add costs to all plants
+-												Check values of dmg and speed
+//=add costs to all plants
+//add projectile removal
