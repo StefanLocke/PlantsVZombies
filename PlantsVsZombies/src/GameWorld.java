@@ -1,34 +1,33 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
  
 public class GameWorld  {
-	public static final double EPSI = PeaProj.MOVE_X + Zombie.MOVE_X;
+	public static final double EPSI = PeaProj.MOVE_X + Zombie.MOVE_X+0.02;
 	public static final int GRID_HEIGHT= 6;
 	public static final int GRID_WIDTH= 9;
 	
 	
-	// l'ensemble des entites, pour gerer (notamment) l'affichage
-	static List<Entite> entites;
-	static List<Plant> plants;
-	static List<Enemy> enemies;
-	static List<Projectile> projectiles;
-	static List<SunPickup> suns;
-	public static char lastKey;
-	public static int sunPower;
-	public Timer timer;
-	public Timer waveTimer;
-	int EtR;    	// amount of enemies to remove
+	static List<Entite> entites;   // list of entites
+	static List<Plant> plants;   // list of plants on the grid 
+	static Map<Integer,LinkedList<Enemy>> enemies;  // map of a list of each zombie on each Y axis of the grid
+	static List<Projectile> projectiles;  // list of projectiles on the grid 
+	static List<SunPickup> suns;	// list of sun pickups on the grid
+	public static char lastKey;	 // last key pressed
+	public static int sunPower;   // amount of sun power
+	public Timer sunTimer;   // time between each sun spawn
+	public Timer waveTimer;  // time between each wave
+	List<Integer> EtR;    	// amount of enemies to remove
 	int PtR;		// amount of PLANTS to remove
 	int StR;		// amount of SUNS to remove
 	int PrtR;		// amount of proj to remove
-	int waveNb;
+	static int waveNb;
+	static int kills;
 	
-	//Pour savoir si la partie est gagnee ou pas
 	private static boolean gameWon;
-	// Idem pour savoir si le jeu est perdu (si le jeu n'est ni gagne ni perdu, il est en cours)
 	private static boolean gameLost;
 
-	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
 		
 		
@@ -38,17 +37,21 @@ public class GameWorld  {
 		// on cree les collections
 		entites = new LinkedList<Entite>();
 		plants = new LinkedList<Plant>();
-		enemies = new LinkedList<Enemy>();
+		enemies = build();
+		System.out.println(enemies.toString());
 		projectiles = new LinkedList<Projectile>();
 		suns = new LinkedList<SunPickup>();
 		lastKey = 'e';
 		sunPower = 50;
-		timer = new Timer(6000);
-		waveTimer = new Timer(6000);
-		EtR = 0;
+		sunTimer = new Timer(6000);
+		waveTimer = new Timer(20000);
+		EtR = new LinkedList<Integer>();
+		PrtR = 0;
 		PtR = 0;
 		StR = 0;
 		waveNb=1;
+		kills = 0;
+		
 		
 		
 		
@@ -77,7 +80,9 @@ public class GameWorld  {
 		case 's':
 			System.out.println(Main.mapGroup.hasSun.toString());
 			System.out.println(sunPower);
-			System.out.println("str = " + StR); 
+			System.out.println("str = " + StR);
+			wave(3);
+			enemies.get(3).add(new ArmoredZombie(0.5,Main.mapGroup.getDoubleCoordY(3)));
 			break;
 		default:
 			System.out.println("Touche non prise en charge");
@@ -113,29 +118,31 @@ public class GameWorld  {
 				}
 			}
 				else {
-			switch (lastKey) {                
-			case 't':
-				Sunflower.place(x, y);
-				break;
-			case 'p':
-				PeaShooter.place(x, y);
-				break;
-			case 'n':
-				Nut.place(x, y);
-				break;
-			case 'e' :
-				break;
-	
-			default:
-				System.out.println("Touche non prise en charge");
-				break;
-			}
-			}
+					if (!zombiecheck(Grid.whereX(x), Grid.whereY(y))) {
+				switch (lastKey) {                
+				case 't':
+					Sunflower.place(x, y);
+					break;
+				case 'p':
+					PeaShooter.place(x, y);
+					break;
+				case 'n':
+					Nut.place(x, y);
+					break;
+				case 'e' :
+					break;
+		
+				default:
+					System.out.println("Touche non prise en charge");
+					break;
+				}
+					}
+				}
 		}
 	}
 	
 	public void step() {
-		if (timer.hasFinished())
+		if (sunTimer.hasFinished())
 		{
 			int l;
 			int k;			
@@ -143,7 +150,7 @@ public class GameWorld  {
 				k = randYint();			
 			Main.mapGroup.hasSun.put("" +l+k,true);
 			GameWorld.suns.add(new SunPickup(Main.mapGroup.getDoubleCoordX(l),Main.mapGroup.getDoubleCoordY(k)));
-			timer.restart();
+			sunTimer.restart();
 		}
 		
 		if (waveTimer.hasFinished()) {
@@ -173,12 +180,13 @@ public class GameWorld  {
 				plant.counted = true;
 			}
 		}
-		for (Enemy enemy :enemies) {
-			enemy.step();
-			if (enemy.toRemove && !enemy.counted)
-			{
-				EtR++;
-				enemy.counted = true;
+		for (Integer i : enemies.keySet()) {
+			for (Enemy enemy : enemies.get(i)) {
+				enemy.step();
+				if (enemy.toRemove)
+				{
+					EtR.add(i);
+				}
 			}
 		}
 		
@@ -206,21 +214,13 @@ public class GameWorld  {
 			}
 		}
 		
-		while (EtR > 0 ) { 
-			for (Enemy enemy: enemies) {
-				boolean T = false;
-				if (enemy.toRemove == true) {
-					enemies.remove(enemy);
-					T = true;
+		while (!EtR.isEmpty()) { 
+			for (Integer i: EtR) {
+				removeZombie(i);
+				kills++;
 				}
-				if (T == true) {
-					EtR--;
-					break;
-				}
-								
+			EtR.clear();							
 			}
-		}
-		
 		while (PtR > 0 ) { 
 			for (Plant plant: plants) {
 				boolean T = false;
@@ -250,24 +250,17 @@ public class GameWorld  {
 			}
 		}
 	}
-		/*for (Integer inte :toRemove)
-		{
-			enemies.remove(inte.intValue());
-			plants.remove(inte.intValue());
-			
-		}
-		toRemove.clear();*/
-	// dessine les entites du jeu
+	
 	public void dessine() {
-		// Ici vous pouvez afficher du décors
-		// TODO
-			Grid.draw();
-
+		Grid.draw();		
+		for (Integer i : enemies.keySet()) {
+			for (Enemy enemy : enemies.get(i))
+				enemy.dessine();
+		}		
 		
-		for (Enemy enemy :enemies)
-			enemy.dessine();
 		for (Plant plant : plants)
 			plant.dessine();
+		
 		for (Projectile proj :projectiles)
 			proj.dessine();
 		for (Entite entite :entites)
@@ -285,6 +278,11 @@ public class GameWorld  {
 		return gameLost;
 	}
 	
+	public static void setGameLost() {
+		gameLost = true;
+	}
+	
+	
 	private double randspawnX() {
 		return Math.random()*0.2 +0.1;
 	}
@@ -294,13 +292,49 @@ public class GameWorld  {
 	private int randXint() {   // int between 1 and the grid height
 		return (int)(Math.random()*(GRID_WIDTH)+1);
 	}
+	
 	private int randYint() {
 		return (int)(Math.random()*(GRID_HEIGHT-1)+1); // int between 1 and the grid height without the ui grid
 	}
+	
 	private void wave(int n)  {    // spawns n zombies at random boxes around the grid
 		for (int i = 1 ; i <= n;i++) {
-			enemies.add(new Zombie(randspawnX()+1,Main.mapGroup.getDoubleCoordY(randYint())));
-			}
+			int y = randYint();
+			if (i%3 == 0)
+				enemies.get(y).add(new ArmoredZombie(randspawnX()+1,Main.mapGroup.getDoubleCoordY(y)));
+			else 
+				enemies.get(y).add(new Zombie(randspawnX()+1,Main.mapGroup.getDoubleCoordY(y)));
 		}
 	}
+	
+	public Map<Integer,LinkedList<Enemy>> build(){
+		Map<Integer,LinkedList<Enemy>> X = new HashMap<Integer,LinkedList<Enemy>>();
+		for (int i = 1; i < GRID_HEIGHT; i++) 
+		{
+			X.put(i,new LinkedList<Enemy>());
+		}		
+		return X;	
+	}
+	
+	public void addZombie(int y) {
+		enemies.get(y).add(new Zombie(1,Main.mapGroup.getDoubleCoordY(y)));
+	}
+	
+	public void removeZombie(int y) {
+		enemies.get(y).removeFirst();
+	}
+	
+	public boolean zombiecheck(int x,int y) {
+		boolean b = false;
+		for (Enemy enemy:GameWorld.enemies.get(y)) {
+			if (enemy.getX() > Main.mapGroup.getDoubleCoordX(x)-Grid.convertX(Grid.GRID_SIZE)/2) {
+				if (enemy.getX() < Main.mapGroup.getDoubleCoordX(x)+Grid.convertX(Grid.GRID_SIZE)/2) {
+					b = true;
+				}
+			}		
+		}
+		return b;
+	}
+}
+
 	

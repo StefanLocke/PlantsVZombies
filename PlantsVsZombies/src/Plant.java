@@ -6,7 +6,9 @@ public class Plant extends Entite {
 	String fileName;
 	boolean toRemove;
 	boolean counted;
-	
+	public static Timer sunflowerCooldown  = new Timer(5000);
+	public static Timer peashooterCooldown  = new Timer(5000);
+	public static Timer nutCooldown  = new Timer(20000);
 	public Plant(double x, double y,double scaling,int maxhp, String filename) {
 		super(x, y);
 		HP = maxhp;
@@ -30,7 +32,7 @@ public class Plant extends Entite {
 	}
 	
 	public void shoot() {
-		GameWorld.projectiles.add(new PeaProj(this.getX(), this.getY()));
-	}
+		GameWorld.projectiles.add(new PeaProj(this.getX(), this.getY()));	
+		}
 }
 	

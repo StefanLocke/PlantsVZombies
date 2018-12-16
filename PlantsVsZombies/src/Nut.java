@@ -7,6 +7,7 @@ public class Nut extends Plant{
 	public Nut(double x, double y) {
 		super(x, y,SCALE,MAXHP,FILENAME);	
 	}
+	
 	public static void place(double x, double y) {
 		Position here = Grid.where(x,y);
 		Position place = Grid.getCoord(here.getX(),here.getY());
@@ -17,9 +18,14 @@ public class Nut extends Plant{
 			GameWorld.sunPower -= PRICE;
 			GameWorld.plants.add(new Nut(place.getX(),place.getY()));
 			Main.mapGroup.isTaken.put(""+i+j,true);
+			Plant.nutCooldown.restart();
 			}
 			else {
-				System.out.println("you dont have enough powa");
+				if (GameWorld.sunPower < PRICE)
+					System.out.println("You dont have the sun power to buy this");
+				else 
+					System.out.println("You cant buy this plant yet");
+
 			}
 		}
 		else 
@@ -27,6 +33,6 @@ public class Nut extends Plant{
 
 	}
 	public static boolean canBuy() {
-		return GameWorld.sunPower >= PRICE;
+		return (GameWorld.sunPower >= PRICE) && (Plant.nutCooldown.hasFinished());
 	}
 }

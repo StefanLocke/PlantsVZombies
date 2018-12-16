@@ -33,6 +33,8 @@ public class Enemy extends Entite{
 		else {
 			this.toRemove = true;
 		}
+		if(this.getX() < Main.mapGroup.homeCoord)
+			GameWorld.setGameLost();
 	}
 	@Override
 	public void dessine() {

@@ -1,19 +1,9 @@
 
-public class Grid extends Entite {
+public class Grid {   // all the UI elements
 
 	public static final double GRID_SIZE=Main.Y_RESO;
 	public static final double ICONS_PADDING=30;
 	public static final double OUTLINE_THICKNESS=0.01;
-	public Grid() {
-		super();
-		}	
-	@Override
-	public void step() {		
-	}
-	@Override
-	public void dessine() {
-	
-	}
 	public static void draw() {
 		for (int x = 1 ; x<= GameWorld.GRID_WIDTH;x++) {
 			for (int y = 1; y <= GameWorld.GRID_HEIGHT; y++ ) {
@@ -29,42 +19,11 @@ public class Grid extends Entite {
 		StdDraw.setFont(StdDraw.NEW_FONT);
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(Main.mapGroup.getDoubleCoordX(1)+convertX(GRID_SIZE)/2,Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT)+convertY(GRID_SIZE)/3, "Flower Power :");
-		StdDraw.setFont(StdDraw.FLOWERPOWERFONT);
+		StdDraw.setFont(StdDraw.FLOWERPOWERNUMBER);
 		StdDraw.text(Main.mapGroup.getDoubleCoordX(1)+convertX(GRID_SIZE)/2,Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT)-convertY(GRID_SIZE)/6, ""+GameWorld.sunPower);
-		StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
-		for (int i = 3; i<=9;i++) {
-			StdDraw.filledRectangle(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
-		}
-		StdDraw.setPenColor(StdDraw.BLUE);
-		StdDraw.setPenRadius(OUTLINE_THICKNESS);
-		for (int i = 3; i<=9;i++) {
-			if (i == 3)
-				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"pictures/Sun.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
-			if (i == 4)
-				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"pictures/Peashooter.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
-			if (i == 5)
-				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),"pictures/Nut.png",(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));	
-		}
-		for (int i = 3; i<=9;i++) {
-			StdDraw.setPenColor(StdDraw.BLUE);
-			if (i == 3 && Sunflower.canBuy()) {
-				if (GameWorld.lastKey == 't')
-					StdDraw.setPenColor(StdDraw.RED);
-				StdDraw.rectangle(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));			
-			}
-			StdDraw.setPenColor(StdDraw.BLUE);
-			if (i == 4 && PeaShooter.canBuy()) {
-				if (GameWorld.lastKey == 'p')
-					StdDraw.setPenColor(StdDraw.RED);
-				StdDraw.rectangle(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
-				}
-			StdDraw.setPenColor(StdDraw.BLUE);
-			if (i == 5 && Nut.canBuy()) {
-				if (GameWorld.lastKey == 'n')
-					StdDraw.setPenColor(StdDraw.RED);
-				StdDraw.rectangle(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));	
-			}
-		}				
+		drawPlantBoxes();
+		drawCounters();
+		
 	}
 }
 	
@@ -146,6 +105,62 @@ public class Grid extends Entite {
 			Ty = true;
 		}
 		return Tx && Ty;	
+	}
+	
+	private static void drawCounters() {
+		StdDraw.setFont(StdDraw.COUNTERTEXT);
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.text(Main.mapGroup.getDoubleCoordX(GameWorld.GRID_WIDTH),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT)+convertY(GRID_SIZE)/4 ,"Wave Nb :" + (GameWorld.waveNb-1) );
+		StdDraw.text(Main.mapGroup.getDoubleCoordX(GameWorld.GRID_WIDTH),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT) ,"Zombies killed: " + GameWorld.kills);
+		StdDraw.setFont();
+		StdDraw.setPenColor();
+	}
+	
+	private static void drawPlantBoxes() {
+		StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
+		for (int i = 3; i<=8;i++) {
+			StdDraw.filledRectangle(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
+		}
+		StdDraw.setFont(StdDraw.NEW_FONT);
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.setPenRadius(OUTLINE_THICKNESS);
+		for (int i = 3; i<=8;i++) {
+			if (i == 3) {
+				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),Sunflower.FILENAME,(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
+				StdDraw.textRight(Main.mapGroup.getDoubleCoordX(i)+convertX(GRID_SIZE)/3, Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT)+convertY(GRID_SIZE)/3, "" + Sunflower.PRICE);
+			}
+			if (i == 4) {
+				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),PeaShooter.FILENAME,(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
+				StdDraw.textRight(Main.mapGroup.getDoubleCoordX(i)+convertX(GRID_SIZE)/3, Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT)+convertY(GRID_SIZE)/3, "" + PeaShooter.PRICE);
+			}
+			if (i == 5) {
+				StdDraw.picture(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),Nut.FILENAME,(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));	
+				StdDraw.textRight(Main.mapGroup.getDoubleCoordX(i)+convertX(GRID_SIZE)/3, Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT)+convertY(GRID_SIZE)/3, "" + Nut.PRICE);
+			}
+			}
+		for (int i = 3; i<=8;i++) {
+			StdDraw.setPenColor(StdDraw.BLUE);
+			if (i == 3 && Sunflower.canBuy()) {
+				if (GameWorld.lastKey == 't')
+					StdDraw.setPenColor(StdDraw.RED);
+				StdDraw.rectangle(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
+			}
+			StdDraw.setPenColor(StdDraw.BLUE);
+			if (i == 4 && PeaShooter.canBuy()) {
+				if (GameWorld.lastKey == 'p')
+					StdDraw.setPenColor(StdDraw.RED);
+				StdDraw.rectangle(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));
+				}
+			StdDraw.setPenColor(StdDraw.BLUE);
+			if (i == 5 && Nut.canBuy()) {
+				if (GameWorld.lastKey == 'n')
+					StdDraw.setPenColor(StdDraw.RED);
+				StdDraw.rectangle(Main.mapGroup.getDoubleCoordX(i),Main.mapGroup.getDoubleCoordY(GameWorld.GRID_HEIGHT),(convertX(GRID_SIZE)/2)-(convertX(ICONS_PADDING)),(convertY(GRID_SIZE)/2)-(convertY(ICONS_PADDING)));	
+			}
+		}
+		StdDraw.setPenColor();
+		StdDraw.setFont();
+		StdDraw.setPenRadius();
 	}
 	
 }

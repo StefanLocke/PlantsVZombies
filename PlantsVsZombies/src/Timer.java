@@ -17,6 +17,5 @@ public class Timer {
 	
 	public boolean hasFinished() {
 		return (debut.compareTo((Instant.now().minus(duree, ChronoUnit.MILLIS))) < 0);
-	}
-	
+	}	
 }

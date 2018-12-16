@@ -474,8 +474,9 @@ import javax.swing.KeyStroke;
 public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
 
 	public static final Font NEW_FONT = new Font("SansSerif", Font.BOLD, 22);
-	public static final Font FLOWERPOWERFONT = new Font("SansSerif", Font.BOLD, 80);
+	public static final Font FLOWERPOWERNUMBER = new Font("SansSerif", Font.BOLD, 80);
 	public static final Font SMALLNUMBER = new Font("SansSerif", Font.BOLD, 15);
+	public static final Font COUNTERTEXT = new Font("SansSerif", Font.BOLD, 12);
     /**
      *  The color black.
      */

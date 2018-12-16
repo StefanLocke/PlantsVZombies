@@ -6,12 +6,14 @@ public class MapGroup {
 	Map<Integer,Double> coordYIntToDouble;
 	Map<String,Boolean> isTaken;
 	Map<String,Boolean> hasSun;
-	
+	double homeCoord;
+
 	public MapGroup() {
 		coordXIntToDouble = createCoordX();
 		coordYIntToDouble = createCoordY();
 		isTaken = setEmpty();
 		hasSun = setEmpty();
+		homeCoord = Grid.convertX(Grid.GRID_SIZE);
 	}
 	public static Map<Integer,Double> createCoordX() {
 		Map<Integer,Double> M = new HashMap<Integer,Double>();
